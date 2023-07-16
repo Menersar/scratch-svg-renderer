@@ -78,6 +78,12 @@ sanitizeSvg.sanitizeByteStream = function (rawData) {
     return encoder.encode(sanitizedText);
 };
 
+const HTML_COMMENT_START = `<!${'-'.repeat(2)}`;
+const HTML_COMMENT_END = `${'-'.repeat(2)}>`;
+const extraMetadataRegex = new RegExp(
+    `${HTML_COMMENT_START}rotationCenter:(-?[\\d\\.]+):(-?[\\d\\.]+)${HTML_COMMENT_END}$`
+);
+
 /**
  * Load an SVG string and "sanitize" it. This is more aggressive than the handling in
  * fixup-svg-string.js, and thus more risky; there are known examples of SVGs that
@@ -98,6 +104,12 @@ sanitizeSvg.sanitizeSvgText = function (rawSvgText) {
 
     // also use our custom fixup rules
     sanitizedText = fixupSvgString(sanitizedText);
+
+    const extraMetadataMatch = rawSvgText.match(extraMetadataRegex);
+    if (extraMetadataMatch) {
+        sanitizedText += extraMetadataMatch[0];
+    }
+
     return sanitizedText;
 };
 

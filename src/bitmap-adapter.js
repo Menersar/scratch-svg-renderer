@@ -11,6 +11,13 @@ class BitmapAdapter {
     constructor (makeImage, makeCanvas) {
         this._makeImage = makeImage ? makeImage : () => new Image();
         this._makeCanvas = makeCanvas ? makeCanvas : () => document.createElement('canvas');
+        this._stageWidth = 480;
+        this._stageHeight = 360;
+    }
+
+    setStageSize (stageWidth, stageHeight) {
+        this._stageWidth = stageWidth;
+        this._stageHeight = stageHeight;
     }
 
     /**
@@ -67,8 +74,8 @@ class BitmapAdapter {
      * @return {object} Array of new width, new height
      */
     getResizedWidthHeight (oldWidth, oldHeight) {
-        const STAGE_WIDTH = 480;
-        const STAGE_HEIGHT = 360;
+        const STAGE_WIDTH = this._stageWidth;
+        const STAGE_HEIGHT = this._stageHeight;
         const STAGE_RATIO = STAGE_WIDTH / STAGE_HEIGHT;
 
         // If both dimensions are smaller than or equal to corresponding stage dimension,
