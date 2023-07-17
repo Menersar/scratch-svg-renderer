@@ -6,5 +6,8 @@ module.exports = {
         DOMParser: true,
         Image: true,
         XMLSerializer: true
-    }
+    },
+    rules: {
+        indent: off,
+      }
 };
