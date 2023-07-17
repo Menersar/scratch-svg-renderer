@@ -7,8 +7,6 @@ module.exports = {
         Image: true,
         XMLSerializer: true,
     },
-    root: true,
-    extends: '@react-native-community',
     rules: {
       'prettier/prettier': 0,
     },
