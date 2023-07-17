@@ -7,7 +7,7 @@ module.exports = {
         Image: true,
         XMLSerializer: true
     },
-    "rules": {
-        "indent": "off",
+    rules: {
+        indent: "off",
       }
 };
