@@ -78,6 +78,9 @@ sanitizeSvg.sanitizeByteStream = function (rawData) {
     return encoder.encode(sanitizedText);
 };
 
+// Don't remove extra metadata tag: `<!--rotationCenter:10,10-->`.
+// Using literal HTML comments tokens will cause this script to be very hard to inline in a `<script>` element, so:
+// Instead doing this hack which the minifier probably can't optimize away.
 const HTML_COMMENT_START = `<!${'-'.repeat(2)}`;
 const HTML_COMMENT_END = `${'-'.repeat(2)}>`;
 const extraMetadataRegex = new RegExp(
@@ -105,6 +108,7 @@ sanitizeSvg.sanitizeSvgText = function (rawSvgText) {
     // also use our custom fixup rules
     sanitizedText = fixupSvgString(sanitizedText);
 
+    // Prevent removal of the extra metadata comment (`extraMetadataMatch`).
     const extraMetadataMatch = rawSvgText.match(extraMetadataRegex);
     if (extraMetadataMatch) {
         sanitizedText += extraMetadataMatch[0];
